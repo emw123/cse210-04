@@ -2,6 +2,7 @@ from game.casting.actor import Actor
 from game.casting.cast import Cast
 from game.services.keyboard_service import KeyboardService
 from game.services.video_service import  VideoService
+import random
 
 
 class Director:
