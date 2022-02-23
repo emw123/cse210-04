@@ -12,3 +12,7 @@ class Fallen_Item(Actor):
         
     def get_message(self):
         return self._message
+    
+    
+    
+    

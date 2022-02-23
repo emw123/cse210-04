@@ -2,7 +2,8 @@ from game.casting.actor import Actor
 from game.casting.cast import Cast
 from game.services.keyboard_service import KeyboardService
 from game.services.video_service import  VideoService
-import random
+from game.casting.generator import Generator
+
 
 
 class Director:
@@ -24,13 +25,14 @@ class Director:
         """
         self._keyboard_service = keyboard_service
         self._video_service = video_service
-        
-    def start_game(self, cast):
+        self._generator = Generator        
+    def start_game(self, cast, COLS, CELL_SIZE, FONT_SIZE):
         """Starts the game using the given cast. Runs the main game loop.
 
         Args:
             cast (Cast): The cast of actors.
         """
+        self._generator.pop_fallen_items(cast, COLS, CELL_SIZE, FONT_SIZE)
         self._video_service.open_window()
         while self._video_service.is_window_open():
             self._get_inputs(cast)
@@ -78,3 +80,6 @@ class Director:
         actors = cast.get_all_actors()
         self._video_service.draw_actors(actors)
         self._video_service.flush_buffer()
+        
+        
+   
