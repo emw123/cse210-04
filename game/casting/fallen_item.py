@@ -7,7 +7,7 @@ class Fallen_Item(Actor):
     def __init__(self):
         super().__init__()
         self._message = ""    
-        self._velocity = Point(0, 12)
+        self._velocity = Point(0, 48)
         
     def set_message(self, message):
         self._message = message

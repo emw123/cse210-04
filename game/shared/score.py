@@ -86,5 +86,5 @@ class Score:
 
         return self.total_score
         
-        pass
->>>>>>> 832d0f40f7349333d147d8695e1351cfd74fadd9
+        pass        
+>>>>>>> 832d0f40f7349333d147d8695e1351cfd74fadd9        

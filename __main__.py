@@ -10,13 +10,14 @@ from game.services.video_service import VideoService
 
 from game.shared.color import Color
 from game.shared.point import Point
+from game.shared.score import Score
 
 
 FRAME_RATE = 12
-MAX_X = 2700
-MAX_Y = 1800
-CELL_SIZE = 45
-FONT_SIZE = 45
+MAX_X = (56 * 48) #CHANGE FIRST NUMBER TO CHANGE WINDOW SIZE
+MAX_Y = (37 * 48) #CHANGE FIRST NUMBER TO CHANGE WINDOW SIZE
+CELL_SIZE = 48
+FONT_SIZE = 48
 COLS = 60
 ROWS = 40
 CAPTION = "Robot Finds Kitten"
@@ -29,7 +30,7 @@ def main():
     
     # create the cast
     cast = Cast()
-    
+    scoreboard = Score( "Score", 600, 400, 10, 10)
     # create the banner
     banner = Actor()
     banner.set_text("")
@@ -40,7 +41,7 @@ def main():
     
     # create the robot
     x = int(MAX_X / 2)
-    y = 1755
+    y = 1728
     position = Point(x, y)
 
     robot = Actor()
@@ -55,6 +56,7 @@ def main():
     keyboard_service = KeyboardService(CELL_SIZE)
     video_service = VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE)
     director = Director(keyboard_service, video_service)
+    scoreboard.open_window()
     director.start_game(cast, COLS, CELL_SIZE, FONT_SIZE)
 if __name__ == "__main__":
     main()

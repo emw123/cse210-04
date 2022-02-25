@@ -69,13 +69,14 @@ class Director:
             gem.move_next(max_x,max_y)
         for rock in rocks:
             rock.move_next(max_x,max_y)
-        
-        for gem in gems:
+        del_list = []        
+        for i in range(len(gems)):
+            gem = gems[i]
             if robot.get_position().equals(gem.get_position()):
                 message = gem.get_message()
                 banner.set_text(message)
-                cast.remove_actor(gems, gem)  
-        del_list = []
+                del_list.append(i)  
+
         for i in range(len(rocks)):
             rock = rocks[i]
             if robot.get_position().equals(rock.get_position()):
@@ -83,6 +84,7 @@ class Director:
                 banner.set_text(message)
                 del_list.append(i)
         for i in del_list:
+            cast.remove_actor("gems", gems[i])
             cast.remove_actor("rocks" , rocks[i])        
             
         
