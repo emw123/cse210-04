@@ -40,6 +40,7 @@ class Generator:
             f_item.set_color(color)
             f_item.set_position(position)
             f_item.set_message(message)
+
             if r_or_g == 0:
                 cast.add_actor("gems", f_item)
             elif r_or_g == 1:

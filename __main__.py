@@ -39,9 +39,18 @@ def main():
     banner.set_position(Point(CELL_SIZE, 0))
     cast.add_actor("banners", banner)
     
+    # create bottom border
+    border_cells = MAX_X / 48
+    i = 0
+    while i <= border_cells:
+        border = Actor()
+        border.set_position(Point(i * 48 , 1728))
+        cast.add_actor("borders", border)
+        i += 1
+    
     # create the robot
     x = int(MAX_X / 2)
-    y = 1728
+    y = 1680
     position = Point(x, y)
 
     robot = Actor()

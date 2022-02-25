@@ -3,7 +3,7 @@ from game.casting.cast import Cast
 from game.services.keyboard_service import KeyboardService
 from game.services.video_service import  VideoService
 from game.casting.generator import Generator
-
+import random
 
 
 class Director:
@@ -32,9 +32,12 @@ class Director:
         Args:
             cast (Cast): The cast of actors.
         """
-        self._generator.pop_fallen_items(cast, COLS, CELL_SIZE, FONT_SIZE)
+        
         self._video_service.open_window()
         while self._video_service.is_window_open():
+            x = random.randint(1,12)
+            if x == 12:
+                self._generator.pop_fallen_items(cast, COLS, CELL_SIZE, FONT_SIZE)
             self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
@@ -60,6 +63,7 @@ class Director:
         robot = cast.get_first_actor("robots")
         rocks = cast.get_actors("rocks")
         gems = cast.get_actors("gems")
+        border = cast.get_actors("borders")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
@@ -72,10 +76,24 @@ class Director:
         del_list = []        
         for i in range(len(gems)):
             gem = gems[i]
+            gem
+            # y = gem.get_y()
             if robot.get_position().equals(gem.get_position()):
                 message = gem.get_message()
                 banner.set_text(message)
-                del_list.append(i)  
+                del_list.append(i)
+                for i in del_list:
+                    cast.remove_actor("gems", gems[i])
+            for n in range(len(border)):
+                bord = border[n]
+                if bord.get_position().equals(gem.get_position()):
+                    try:
+                        del_list.append(i)
+                        for i in del_list:
+                            cast.remove_actor("gems", gems[i])
+                    except:
+                        print(" it didnt get goned")
+
 
         for i in range(len(rocks)):
             rock = rocks[i]
@@ -83,9 +101,17 @@ class Director:
                 message = rock.get_message()
                 banner.set_text(message)
                 del_list.append(i)
-        for i in del_list:
-            cast.remove_actor("gems", gems[i])
-            cast.remove_actor("rocks" , rocks[i])        
+                for i in del_list:
+                    cast.remove_actor("rocks" , rocks[i])        
+            for n in range(len(border)):
+                bord = border[n]
+                if bord.get_position().equals(rock.get_position()):
+                    try:
+                        del_list.append(i)
+                        for i in del_list:
+                            cast.remove_actor("rocks", rocks[i])
+                    except:
+                        print(" it didnt get goned")
             
         
     def _do_outputs(self, cast):
