@@ -2,6 +2,8 @@ from game.casting.actor import Actor
 from game.casting.cast import Cast
 from game.services.keyboard_service import KeyboardService
 from game.services.video_service import  VideoService
+from game.casting.generator import Generator
+
 
 
 class Director:
@@ -23,13 +25,14 @@ class Director:
         """
         self._keyboard_service = keyboard_service
         self._video_service = video_service
-        
-    def start_game(self, cast):
+        self._generator = Generator        
+    def start_game(self, cast, COLS, CELL_SIZE, FONT_SIZE):
         """Starts the game using the given cast. Runs the main game loop.
 
         Args:
             cast (Cast): The cast of actors.
         """
+        self._generator.pop_fallen_items(cast, COLS, CELL_SIZE, FONT_SIZE)
         self._video_service.open_window()
         while self._video_service.is_window_open():
             self._get_inputs(cast)
@@ -48,24 +51,40 @@ class Director:
         robot.set_velocity(velocity)        
 
     def _do_updates(self, cast):
-        """Updates the robot's position and resolves any collisions with artifacts.
+        """Updates the robot's position and resolves any collisions with falling items.
         
         Args:
             cast (Cast): The cast of actors.
         """
         banner = cast.get_first_actor("banners")
         robot = cast.get_first_actor("robots")
-        artifacts = cast.get_actors("artifacts")
+        rocks = cast.get_actors("rocks")
+        gems = cast.get_actors("gems")
 
         banner.set_text("")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x, max_y)
+        for gem in gems:
+            gem.move_next(max_x,max_y)
+        for rock in rocks:
+            rock.move_next(max_x,max_y)
         
-        for artifact in artifacts:
-            if robot.get_position().equals(artifact.get_position()):
-                message = artifact.get_message()
-                banner.set_text(message)    
+        for gem in gems:
+            if robot.get_position().equals(gem.get_position()):
+                message = gem.get_message()
+                banner.set_text(message)
+                cast.remove_actor(gems, gem)  
+        del_list = []
+        for i in range(len(rocks)):
+            rock = rocks[i]
+            if robot.get_position().equals(rock.get_position()):
+                message = rock.get_message()
+                banner.set_text(message)
+                del_list.append(i)
+        for i in del_list:
+            cast.remove_actor("rocks" , rocks[i])        
+            
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
@@ -77,3 +96,6 @@ class Director:
         actors = cast.get_all_actors()
         self._video_service.draw_actors(actors)
         self._video_service.flush_buffer()
+        
+        
+   
