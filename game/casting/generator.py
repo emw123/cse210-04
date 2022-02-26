@@ -19,10 +19,10 @@ class Generator:
             r_or_g = random.randint(0,1)
             if r_or_g == 0:
                 message = gem.get_message()
-                text = "©"
+                text = "*"
             elif r_or_g == 1:
                 message = rock.get_message()
-                text = "⬛"
+                text = "©"
 
             x = random.randint(1, COLS - 1)
             y = 0

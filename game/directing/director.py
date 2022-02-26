@@ -73,7 +73,6 @@ class Director:
             gem.move_next(max_x,max_y)
         for rock in rocks:
             rock.move_next(max_x,max_y)
-        del_list = []        
         for i in range(len(gems)):
             gem = gems[i]
             gem
@@ -81,18 +80,11 @@ class Director:
             if robot.get_position().equals(gem.get_position()):
                 message = gem.get_message()
                 banner.set_text(message)
-                del_list.append(i)
-                for i in del_list:
-                    cast.remove_actor("gems", gems[i])
+                cast.remove_actor("gems", gems[i])
             for n in range(len(border)):
                 bord = border[n]
                 if bord.get_position().equals(gem.get_position()):
-                    try:
-                        del_list.append(i)
-                        for i in del_list:
-                            cast.remove_actor("gems", gems[i])
-                    except:
-                        print(" it didnt get goned")
+                    cast.remove_actor("gems", gems[i])
 
 
         for i in range(len(rocks)):
@@ -100,19 +92,12 @@ class Director:
             if robot.get_position().equals(rock.get_position()):
                 message = rock.get_message()
                 banner.set_text(message)
-                del_list.append(i)
-                for i in del_list:
-                    cast.remove_actor("rocks" , rocks[i])        
+                cast.remove_actor("rocks" , rocks[i])        
             for n in range(len(border)):
                 bord = border[n]
                 if bord.get_position().equals(rock.get_position()):
-                    try:
-                        del_list.append(i)
-                        for i in del_list:
-                            cast.remove_actor("rocks", rocks[i])
-                    except:
-                        print(" it didnt get goned")
-            
+                    cast.remove_actor("rocks", rocks[i])
+                    
         
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
