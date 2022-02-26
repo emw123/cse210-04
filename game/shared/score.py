@@ -55,20 +55,20 @@ class Score:
         pyray.set_target_fps(self._frame_rate)
 
     def score(self, cast: Cast):
-        """Set score to 0, add 50 points for every gem collected and remove 50 points for every rock hit. Update score."""
+        """Set score to 0, add 1 point1 for every gem collected and remove 1 point for every rock hit. Update score."""
         self.total_score = 0
         robot = cast.get_first_actor("robots")
-        artifacts = cast.get_actors("artifacts")
+        #artifacts = cast.get_actors("artifacts")
         rock = cast.get_actors("rocks")
         gem = cast.get_actors("gems")
-        for gem in artifacts:
+        for gem in gem:
             if robot.get_position().equals(gem.get_position()):
-                self.total_score += 50
+                self.total_score += 1
             else:
                 pass
-        for rock in artifacts:
+        for rock in rock:
             if robot.get_position().equals(rock.get_position()):
-                self.total_score -= 50
+                self.total_score -= 1
             else: 
                 pass
 

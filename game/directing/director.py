@@ -25,7 +25,9 @@ class Director:
         """
         self._keyboard_service = keyboard_service
         self._video_service = video_service
-        self._generator = Generator        
+        self._generator = Generator    
+        self.total_score = 0
+
     def start_game(self, cast, COLS, CELL_SIZE, FONT_SIZE):
         """Starts the game using the given cast. Runs the main game loop.
 
@@ -65,10 +67,11 @@ class Director:
         gems = cast.get_actors("gems")
         border = cast.get_actors("borders")
 
-        banner.set_text("")
+        banner.set_text(f"Score: {self.total_score}")
         max_x = self._video_service.get_width()
         max_y = self._video_service.get_height()
         robot.move_next(max_x, max_y)
+
         for gem in gems:
             gem.move_next(max_x,max_y)
         for rock in rocks:
@@ -81,6 +84,8 @@ class Director:
                 message = gem.get_message()
                 banner.set_text(message)
                 cast.remove_actor("gems", gems[i])
+                self.total_score += 1    
+
             for n in range(len(border)):
                 bord = border[n]
                 if bord.get_position().equals(gem.get_position()):
@@ -92,7 +97,8 @@ class Director:
             if robot.get_position().equals(rock.get_position()):
                 message = rock.get_message()
                 banner.set_text(message)
-                cast.remove_actor("rocks" , rocks[i])        
+                cast.remove_actor("rocks" , rocks[i])    
+                self.total_score -= 1    
             for n in range(len(border)):
                 bord = border[n]
                 if bord.get_position().equals(rock.get_position()):
